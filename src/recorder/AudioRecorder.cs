@@ -5,7 +5,7 @@ namespace recorder
 {
     public class AudioRecorder
     {
-        private AVAudioRecorder recorder;
+        public AVAudioRecorder Recorder;
 
         public void StartRecording(string url)
         {
@@ -16,13 +16,13 @@ namespace recorder
                 session.SetCategory(AVAudioSession.CategoryPlayAndRecord, options, out NSError error);
                 session.SetActive(true, out error);
                 PrepareAudioRecording(url); 
-                recorder.Record();
+                Recorder.Record();
             });
         }
 
         public void StopRecording()
         {
-            recorder.Stop();
+            Recorder.Stop();
         }
 
         private void PrepareAudioRecording(string url)
@@ -37,26 +37,21 @@ namespace recorder
 
             // Set recorder parameters
             var url1 = NSUrl.FromFilename(url);
-            recorder = AVAudioRecorder.Create(url1, audioSettings, out NSError error);
-            recorder.RecordFor(10);
+            Recorder = AVAudioRecorder.Create(url1, audioSettings, out NSError error);
+            Recorder.RecordFor(10);
 
             // Set Recorder to Prepare To Record
-            if (!recorder.PrepareToRecord())
-            {
-                recorder.Dispose();
-                recorder = null;
-            }
-            else
-            {
-                recorder.FinishedRecording += OnFinishedRecording;
-            }
+            //if (!Recorder.PrepareToRecord())
+            //{
+            //    Recorder.Dispose();
+            //    Recorder = null;
+            //}
+            //else
+            //{
+            //    Recorder.FinishedRecording += OnFinishedRecording;
+            //}
         }
 
 
-        private void OnFinishedRecording(object sender, AVStatusEventArgs e)
-        {
-            recorder.Dispose();
-            recorder = null;
-        }
     }
 }

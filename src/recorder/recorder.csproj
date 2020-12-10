@@ -150,5 +150,11 @@
     <SceneKitAsset Include="art.scnassets\sample1.m4a" />
     <SceneKitAsset Include="art.scnassets\message.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <SceneKitAsset Include="art.scnassets\mic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <SceneKitAsset Include="art.scnassets\stop.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
