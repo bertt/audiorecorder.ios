@@ -7,20 +7,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "recorder", "recorder\record
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|iPhoneSimulator = Debug|iPhoneSimulator
-		Release|iPhoneSimulator = Release|iPhoneSimulator
 		Debug|iPhone = Debug|iPhone
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
 		Release|iPhone = Release|iPhone
+		Release|iPhoneSimulator = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
-		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
-		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
-		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Debug|iPhone.Build.0 = Debug|iPhone
+		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Debug|iPhone.Deploy.0 = Debug|iPhone
+		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
 		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Release|iPhone.ActiveCfg = Release|iPhone
 		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Release|iPhone.Build.0 = Release|iPhone
+		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{EE1461DF-A9D2-44A8-A95D-087991758C62}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

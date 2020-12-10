@@ -2,7 +2,6 @@
 using CoreGraphics;
 using Foundation;
 using System;
-using System.Diagnostics;
 using System.IO;
 using UIKit;
 
@@ -46,6 +45,8 @@ namespace recorder
                 }
                 else
                 {
+                    btnAudioRecord.SetTitle("stopping...", UIControlState.Normal);
+
                     StopRecording();
                 }
             };
@@ -61,40 +62,45 @@ namespace recorder
 
         private void StartRecording()
         {
-            Console.WriteLine("Begin Recording");
-            btnAudioRecord.SetTitle("stop", UIControlState.Normal);
-
-            var session = AVAudioSession.SharedInstance();
-            session.RequestRecordPermission((granted) =>
+            if (!isRecording)
             {
-                Console.WriteLine($"Audio Permission: {granted}");
+                Console.WriteLine("Begin Recording");
+                isRecording = true;
+                btnAudioRecord.SetTitle("stop", UIControlState.Normal);
 
-                if (granted)
+                var session = AVAudioSession.SharedInstance();
+                session.RequestRecordPermission((granted) =>
                 {
-                    //var options = new
-                    var options = AVAudioSessionCategoryOptions.DefaultToSpeaker;
-                    session.SetCategory(AVAudioSession.CategoryPlayAndRecord, options, out NSError error);
-                    if (error == null)
+                    Console.WriteLine($"Audio Permission: {granted}");
+
+                    if (granted)
                     {
-                        session.SetActive(true, out error);
-                        if (error != null)
+                        //var options = new
+                        var options = AVAudioSessionCategoryOptions.DefaultToSpeaker;
+                        session.SetCategory(AVAudioSession.CategoryPlayAndRecord, options, out NSError error);
+                        if (error == null)
                         {
+                            session.SetActive(true, out error);
+                            if (error != null)
+                            {
+                            }
+                            else
+                            {
+                                var isPrepared = PrepareAudioRecording() && recorder.Record();
+                            }
                         }
                         else
                         {
-                            var isPrepared = PrepareAudioRecording() && recorder.Record();
+                            Console.WriteLine(error.LocalizedDescription);
                         }
                     }
                     else
                     {
-                        Console.WriteLine(error.LocalizedDescription);
+                        Console.WriteLine("YOU MUST ENABLE MICROPHONE PERMISSION");
                     }
-                }
-                else
-                {
-                    Console.WriteLine("YOU MUST ENABLE MICROPHONE PERMISSION");
-                }
-            });
+                });
+
+            }
         }
 
 
@@ -144,7 +150,7 @@ namespace recorder
         private void OnFinishedRecording(object sender, AVStatusEventArgs e)
         {
             btnAudioRecord.SetTitle("start", UIControlState.Normal);
-            isRecording = true;
+            isRecording = false;
             recorder.Dispose();
             recorder = null;
 
