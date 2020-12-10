@@ -10,9 +10,10 @@ namespace recorder
     public partial class ViewController : UIViewController
     {
         private string audioFilePath;
-        private AVAudioRecorder recorder;
         private UIButton btnAudioRecord;
-        private bool isRecording = false;
+        private bool isRecording;
+        private AudioRecorder audioRecorder;
+
 
         public ViewController(IntPtr handle) : base(handle)
         {
@@ -45,8 +46,6 @@ namespace recorder
                 }
                 else
                 {
-                    btnAudioRecord.SetTitle("stopping...", UIControlState.Normal);
-
                     StopRecording();
                 }
             };
@@ -55,9 +54,10 @@ namespace recorder
 
         }
 
-        private void StopRecording()
-        {
-            recorder.Stop();
+        private void StopRecording() {
+            audioRecorder.StopRecording();
+            btnAudioRecord.SetTitle("start", UIControlState.Normal);
+            isRecording = false;
         }
 
         private void StartRecording()
@@ -68,93 +68,10 @@ namespace recorder
                 isRecording = true;
                 btnAudioRecord.SetTitle("stop", UIControlState.Normal);
 
-                var session = AVAudioSession.SharedInstance();
-                session.RequestRecordPermission((granted) =>
-                {
-                    Console.WriteLine($"Audio Permission: {granted}");
-
-                    if (granted)
-                    {
-                        //var options = new
-                        var options = AVAudioSessionCategoryOptions.DefaultToSpeaker;
-                        session.SetCategory(AVAudioSession.CategoryPlayAndRecord, options, out NSError error);
-                        if (error == null)
-                        {
-                            session.SetActive(true, out error);
-                            if (error != null)
-                            {
-                            }
-                            else
-                            {
-                                var isPrepared = PrepareAudioRecording() && recorder.Record();
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine(error.LocalizedDescription);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("YOU MUST ENABLE MICROPHONE PERMISSION");
-                    }
-                });
-
+                audioFilePath = CreateOutputUrl();
+                audioRecorder = new AudioRecorder();
+                audioRecorder.StartRecording(audioFilePath);
             }
-        }
-
-
-        private bool PrepareAudioRecording()
-        {
-            var result = false;
-
-            audioFilePath = CreateOutputUrl();
-
-            Console.WriteLine($"audio file: {audioFilePath}");
-
-            var audioSettings = new AudioSettings
-            {
-                SampleRate = 44100,
-                NumberChannels = 1,
-                AudioQuality = AVAudioQuality.High,
-                Format = AudioToolbox.AudioFormatType.MPEG4AAC,
-            };
-
-            // Set recorder parameters
-            var url = NSUrl.FromFilename(audioFilePath);
-            recorder = AVAudioRecorder.Create(url, audioSettings, out NSError error);
-            recorder.RecordFor(10);
-
-            if (error == null)
-            {
-                // Set Recorder to Prepare To Record
-                if (!recorder.PrepareToRecord())
-                {
-                    recorder.Dispose();
-                    recorder = null;
-                }
-                else
-                {
-                    recorder.FinishedRecording += OnFinishedRecording;
-                    result = true;
-                }
-            }
-            else
-            {
-                Console.WriteLine(error.LocalizedDescription);
-            }
-
-            return result;
-        }
-
-        private void OnFinishedRecording(object sender, AVStatusEventArgs e)
-        {
-            btnAudioRecord.SetTitle("start", UIControlState.Normal);
-            isRecording = false;
-            recorder.Dispose();
-            recorder = null;
-
-            Console.WriteLine($"Done Recording (status: {e.Status})");
         }
 
         private string CreateOutputUrl()
