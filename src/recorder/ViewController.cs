@@ -31,6 +31,7 @@ namespace recorder
             btnPlay.SetTitle("Play sound", UIControlState.Normal);
 
             btnPlay.TouchUpInside += (sender, e) => {
+                PlaySounds.PlaySound("art.scnassets/message.wav");
                 PlaySounds.PlaySound(audioFilePath);
             };
 
@@ -44,7 +45,6 @@ namespace recorder
                 if (!isRecording)
                 {
                     btnAudioRecord.SetImage(stopImage, UIControlState.Normal);
-
                     StartRecording();
                 }
                 else

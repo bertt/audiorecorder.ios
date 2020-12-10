@@ -139,15 +139,10 @@
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="btnPlay.cs" />
-    <Compile Include="btnPlay.designer.cs">
-      <DependentUpon>btnPlay.cs</DependentUpon>
-    </Compile>
     <Compile Include="PlaySounds.cs" />
   </ItemGroup>
   <ItemGroup>
     <SceneKitAsset Include="art.scnassets\waypoint_found.wav" />
-    <SceneKitAsset Include="art.scnassets\sample1.m4a" />
     <SceneKitAsset Include="art.scnassets\message.wav" />
   </ItemGroup>
   <ItemGroup>
